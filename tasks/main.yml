@@ -1,0 +1,22 @@
+---
+- stat: path=/opt/bin/etcd
+  register: st
+
+- name: download etcd
+  get_url: url=https://github.com/coreos/etcd/releases/download/v{{ etcd_version }}/etcd-v{{ etcd_version }}-linux-amd64.tar.gz dest=/tmp/etcd-v{{ etcd_version }}-linux-amd64.tar.gz
+  when: st.stat.exists == False
+
+- name: install etcd
+  shell: >
+    cd /tmp/
+    && tar xzvf etcd-v{{ etcd_version }}-linux-amd64.tar.gz
+    && cd etcd-v{{ etcd_version }}-linux-amd64
+    && mkdir -p /opt/bin
+    && cp etcd* /opt/bin
+  when: st.stat.exists == False
+
+- name: clean up temporary files
+  file: path=/tmp/etcd-v{{ etcd_version }}-linux-amd64.tar.gz state=absent
+
+- name: clean up temporary files
+  file: path=/tmp/etcd-v{{ etcd_version }}-linux-amd64 state=absent
