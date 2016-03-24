@@ -1,6 +1,6 @@
 # etcd
 
-Ansible role that installs docker and docker-compose on Debian/Ubuntu hosts.
+Ansible role that installs etcd on Debian (and probably other Linux distributions) hosts.
 
 ## Variables
 
